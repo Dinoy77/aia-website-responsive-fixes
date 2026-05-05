@@ -77,7 +77,7 @@ const FloatingContactRight = () => {
 
   return (
   <>
-    {/* Full screen drag boundary */}
+    {/* Full screeen drag boundary */}
     <div
       ref={dragConstraintsRef}
       className="fixed inset-0 z-[9998] pointer-events-none"

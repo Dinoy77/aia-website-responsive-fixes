@@ -403,7 +403,7 @@ const Navbar = () => {
         </div>
       </div>
 
-      {/* ── OVERLAY — outside <nav>, fades in/out smoothly ── */}
+      {/* ── OVERL AY — outside <nav>, fades in/out smoothly ── */}
       <div
         className={`lg:hidden fixed inset-0 bg-black transition-opacity duration-300 z-[50] ${
           isMobileMenuOpen

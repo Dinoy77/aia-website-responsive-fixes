@@ -23,4 +23,4 @@ Enforced exactly 10 digits — user cannot type beyond 10 digits
 Added inputMode="numeric" on the phone input to show the number keypad on mobile devices
 Added maxLength={10} as an additional HTML-level guard
 Form submission is blocked if phone number is less than 10 digits, with a clear error message: "Phone number must be exactly 10 digits"
-Fixed a duplicate phone input field bug — the Name field was missing and phone field appeared twice in the form grid; restored correct field order: Name → Phone → Email → Message
+Fixed a duplicate phone input field bug — the Name field was missing and phone field appeared twice in the form grid; restored correct field order: Name → Phone → Email → Message.

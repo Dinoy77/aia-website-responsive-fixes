@@ -343,7 +343,7 @@ const HomeContact = () => {
                       )}
                     </div>
 
-                    {/* Verified badge — always in DOM, hidden until verified */}
+                    {/* Verified badges — always in DOM, hidden until verified */}
                     <div
                       className="flex items-center p-2 bg-green-50 border border-green-200 rounded-md transition-opacity duration-200"
                       style={{
