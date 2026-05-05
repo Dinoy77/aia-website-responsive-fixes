@@ -113,11 +113,11 @@ export default function Home() {
       </Suspense>
 
       <HomeHero slug="home" bottombar="true" />
-      <LazySection minHeight="400px" priority>
+      <LazySection minHeight="400px" rootMargin="400px">
         <HomeAbout />
       </LazySection>
 
-      <LazySection minHeight="600px" priority>
+      <LazySection minHeight="600px" rootMargin="400px">
         <HomeContact />
       </LazySection>
 

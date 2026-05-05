@@ -42,7 +42,7 @@
   <!-- Optimized Resource Hints -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link rel="preconnect" href="https://aia.in.net" />
+  <link rel="preconnect" href="https://aia.in.net" crossorigin />
 
   <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
   <link rel="dns-prefetch" href="https://pagead2.googlesyndication.com" />
@@ -124,7 +124,18 @@
   </script>
   <!-- End Google Ad Code -->
 
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <!-- Critical CSS inlined -->
+<style>
+  body { font-family: "Poppins", system-ui, sans-serif; margin: 0; }
+  #root { min-height: 100vh; display: flex; flex-direction: column; }
+  .shimmer { background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%); background-size: 200% 100%; animation: shimmer 1.5s infinite; }
+  @keyframes shimmer { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
+</style>
+
+<!-- Non-blocking font load -->
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" media="print" onload="this.media='all'" />
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" /></noscript>
   <!-- 
     <link rel="preconnect" href="https://fonts.gstatic.com" />
     <link

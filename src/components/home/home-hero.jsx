@@ -174,10 +174,12 @@ export default function HomeHero({ slug, bottombar = false }) {
                 src={slide.imageUrl}
                 alt={slide.alt}
                 priority={index === 0}
+                sizes="(max-width: 640px) 640px, (max-width: 1024px) 1024px, 1600px"
+                width={1600}
+                height={727}
                 className="w-full h-full object-cover"
                 onError={(e) => {
-                  e.target.src =
-                    "https://via.placeholder.com/1200x400?text=Banner";
+                  e.target.src = "https://via.placeholder.com/1200x400?text=Banner";
                 }}
               />
             </a>

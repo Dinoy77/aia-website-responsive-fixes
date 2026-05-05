@@ -103,50 +103,56 @@ export default defineConfig({
     },
   },
 
-  build: {
-    outDir: "dist",
-    emptyOutDir: true,
-    chunkSizeWarningLimit: 1000,
+ build: {
+  outDir: "dist",
+  emptyOutDir: true,
+  chunkSizeWarningLimit: 1000,
+  target: "esnext",
+  cssCodeSplit: true,
+  minify: "esbuild",
+  sourcemap: false,
 
-    rollupOptions: {
-      output: {
-        manualChunks(id) {
-          if (id.includes("node_modules")) {
-            // Core React and Routing
-            if (
-              id.includes("/node_modules/react/") ||
-              id.includes("/node_modules/react-dom/") ||
-              id.includes("/node_modules/react-router-dom/") ||
-              id.includes("/node_modules/scheduler/")
-            ) {
-              return "react-vendor";
-            }
-
-            // Data Fetching
-            if (id.includes("axios") || id.includes("@tanstack/react-query")) {
-              return "data-vendor";
-            }
-            
-            // Group heavy UI/Animation libs
-            if (id.includes("framer-motion") || id.includes("lucide-react") || id.includes("react-icons") || id.includes("vaul")) {
-              return "ui-vendor";
-            }
-
-            // Maps are heavy and specific to certain routes
-            if (id.includes("leaflet") || id.includes("react-leaflet")) {
-              return "map-vendor";
-            }
-
-            // Carousels are also route-specific
-            if (id.includes("swiper") || id.includes("embla-carousel")) {
-              return "carousel-vendor";
-            }
-
-            // Everything else into a generic vendor chunk
-            return "vendor";
+  rollupOptions: {
+    output: {
+      assetFileNames: "assets/[name]-[hash][extname]",
+      chunkFileNames: "assets/[name]-[hash].js",
+      entryFileNames: "assets/[name]-[hash].js",
+      manualChunks(id) {
+        if (id.includes("node_modules")) {
+          if (
+            id.includes("/node_modules/react/") ||
+            id.includes("/node_modules/react-dom/") ||
+            id.includes("/node_modules/react-router-dom/") ||
+            id.includes("/node_modules/scheduler/")
+          ) {
+            return "react-vendor";
           }
-        },
+          if (id.includes("axios") || id.includes("@tanstack/react-query")) {
+            return "data-vendor";
+          }
+          if (id.includes("framer-motion")) {
+            return "framer-motion";
+          }
+          if (id.includes("lucide-react") || id.includes("react-icons")) {
+            return "icons-vendor";
+          }
+          if (id.includes("leaflet") || id.includes("react-leaflet")) {
+            return "map-vendor";
+          }
+          if (id.includes("swiper") || id.includes("embla-carousel")) {
+            return "carousel-vendor";
+          }
+          if (id.includes("@radix-ui")) {
+            return "radix-vendor";
+          }
+          return "vendor";
+        }
       },
     },
+    treeshake: {
+      moduleSideEffects: false,
+      propertyReadSideEffects: false,
+    },
   },
+},
 });
