@@ -9,6 +9,7 @@ const FloatingContactRight = () => {
 
   const [isMobile, setIsMobile] = useState(null);
   const containerRef = useRef(null);
+  const dragConstraintsRef = useRef(null);
 
   useEffect(() => {
     const check = () => setIsMobile(window.innerWidth < 768);
@@ -75,14 +76,24 @@ const FloatingContactRight = () => {
   if (isMobile === null) return null;
 
   return (
-
+  <>
+    {/* Full screen drag boundary */}
     <div
-      className="fixed bottom-40 right-4 z-[9999]"
+      ref={dragConstraintsRef}
+      className="fixed inset-0 z-[9998] pointer-events-none"
+    />
+
+    <motion.div
+      drag
+      dragConstraints={dragConstraintsRef}
+      dragElastic={0.1}
+      dragMomentum={false}
+      className="fixed bottom-40 right-4 z-[9999] cursor-grab active:cursor-grabbing"
       ref={containerRef}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
-
+      {/* ✅ Content is INSIDE motion.div */}
       <div className="relative flex flex-row-reverse items-center gap-2.5">
         <motion.button
           onClick={handleClick}
@@ -94,13 +105,11 @@ const FloatingContactRight = () => {
             shadow-lg transition-shadow duration-300 hover:shadow-xl shrink-0"
         >
           <div className="absolute inset-0 bg-[#F3831C]" />
-
           <motion.div
             animate={{ scale: [1, 1.4, 1], opacity: [0.4, 0, 0.4] }}
             transition={{ duration: 2.5, repeat: Infinity, ease: "easeOut" }}
             className="absolute inset-0 rounded-xl border-2 border-white/40"
           />
-
           <motion.div
             animate={{ rotate: open ? 45 : 0 }}
             transition={{ duration: 0.3, ease: [0.4, 0, 0.2, 1] }}
@@ -129,7 +138,6 @@ const FloatingContactRight = () => {
           </motion.div>
         </motion.button>
 
-        {/* Contact items — animate in from right, expand leftward */}
         <AnimatePresence>
           {open && (
             <div className="flex flex-row-reverse items-center gap-2.5">
@@ -141,13 +149,11 @@ const FloatingContactRight = () => {
                   exit={{ x: 60, opacity: 0, scale: 0.8 }}
                   transition={{
                     duration: 0.3,
-                 
                     delay: (items.length - 1 - index) * 0.06,
                     ease: [0.4, 0, 0.2, 1],
                   }}
                   className="relative group"
                 >
-                  {/* Tooltip */}
                   <div
                     className="absolute bottom-full mb-2 left-1/2 -translate-x-1/2 
                       px-2.5 py-1 bg-slate-800 text-white text-xs font-medium
@@ -157,7 +163,6 @@ const FloatingContactRight = () => {
                   >
                     {item.label}
                   </div>
-
                   <motion.a
                     href={item.link}
                     target="_blank"
@@ -170,8 +175,7 @@ const FloatingContactRight = () => {
                       flex items-center justify-center
                       text-white shadow-md ${item.glow}
                       transition-all duration-200
-                      hover:shadow-lg
-                      cursor-pointer
+                      hover:shadow-lg cursor-pointer
                     `}
                     aria-label={item.label}
                   >
@@ -183,8 +187,9 @@ const FloatingContactRight = () => {
           )}
         </AnimatePresence>
       </div>
-    </div>
-  );
+    </motion.div>  {/* ✅ Properly closed here */}
+  </>
+);
 };
 
 export default FloatingContactRight;

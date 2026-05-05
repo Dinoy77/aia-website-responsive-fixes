@@ -82,7 +82,13 @@ const HomeContact = () => {
   }, []);
 
   const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+    if (name === "phone") {
+      const digitsOnly = value.replace(/\D/g, "").slice(0, 10);
+      setFormData({ ...formData, phone: digitsOnly });
+    } else {
+      setFormData({ ...formData, [name]: value });
+    }
     if (submitSuccess || submitError) {
       setSubmitSuccess(false);
       setSubmitError("");
@@ -103,6 +109,11 @@ const HomeContact = () => {
 
     if (!Object.values(requiredFields).every((f) => f !== "")) {
       setSubmitError("Please fill all required fields");
+      return;
+    }
+
+    if (formData.phone.trim().length !== 10) {
+      setSubmitError("Phone number must be exactly 10 digits");
       return;
     }
 
@@ -153,8 +164,8 @@ const HomeContact = () => {
     } catch (error) {
       setSubmitError(
         error.response?.data?.message ||
-          error.message ||
-          "Failed to submit form. Please try again.",
+        error.message ||
+        "Failed to submit form. Please try again.",
       );
     } finally {
       setIsSubmitting(false);
@@ -236,6 +247,8 @@ const HomeContact = () => {
                     placeholder="Phone No*"
                     value={formData.phone}
                     onChange={handleChange}
+                    maxLength={10}
+                    inputMode="numeric"
                     className="w-full px-4 py-3 border border-[#0F3652] rounded focus:outline-none focus:ring-2 focus:ring-[#F3831C] text-sm"
                     required
                     disabled={isSubmitting}
