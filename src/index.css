@@ -333,3 +333,30 @@ body {
 .testimonial-swiper {
   padding-bottom: 40px !important;
 }
+/* FIX: Reduce layout shift from images without explicit dimensions */
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* FIX: Optimize animation performance — promote animated elements to GPU */
+.shimmer,
+[class*="animate-"] {
+  will-change: transform, opacity;
+}
+
+/* FIX: Contain layout for offscreen sections to prevent reflow */
+.lazy-section-container {
+  contain: layout style;
+}
+
+/* FIX: Reduce motion for users who prefer it (also saves battery/perf) */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

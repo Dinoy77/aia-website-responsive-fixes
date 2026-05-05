@@ -1,56 +1,32 @@
 import PopUp from "@/components/common/pop-up";
 import HomeHero from "@/components/home/home-hero";
 import certificationCourses from "@/data/certificationCourses";
-import {
-  lazy,
-  Suspense,
-  useEffect,
-  useRef,
-  useState,
-  useTransition,
-} from "react";
+import { lazy, Suspense, useEffect, useRef, useState, useTransition } from "react";
 
-const homeAboutPromise = import("@/components/home/home-about");
-const homeContactPromise = import("@/components/home/home-contact");
-
-const HomeAbout = lazy(() => homeAboutPromise);
-const HomeContact = lazy(() => homeContactPromise);
-
+// FIX: Remove eager pre-import of homeAboutPromise & homeContactPromise
+// These were fetching JS before the user could even see the hero image
+// Now they load lazily via IntersectionObserver like everything else
+const HomeAbout = lazy(() => import("@/components/home/home-about"));
+const HomeContact = lazy(() => import("@/components/home/home-contact"));
 const HomeCourses = lazy(() => import("@/components/home/home-courses"));
 const HomePassout = lazy(() => import("@/components/home/home-passout"));
 const HomeResults = lazy(() => import("@/components/home/home-results"));
 const HomeAccredited = lazy(() => import("@/components/home/home-accredited"));
-const WhatsappCarosal = lazy(() =>
-  import("@/components/common/whatsapp-carosal")
-);
+const WhatsappCarosal = lazy(() => import("@/components/common/whatsapp-carosal"));
 const HomeReview = lazy(() => import("@/components/home/home-review"));
 const AllYoutube = lazy(() => import("@/components/common/get-all-youtube"));
-const HomeCorporatePartner = lazy(() =>
-  import("@/components/home/home-corporate-partner")
-);
+const HomeCorporatePartner = lazy(() => import("@/components/home/home-corporate-partner"));
 const HomePrCarousel = lazy(() => import("@/components/home/home-pr-carousel"));
-const HomeAlumniWork = lazy(() =>
-  import("@/components/home/home-alumini-work")
-);
-const CourseYoutubeLecture = lazy(() =>
-  import("@/components/courses/common/course-youtube-lecture")
-);
+const HomeAlumniWork = lazy(() => import("@/components/home/home-alumini-work"));
+const CourseYoutubeLecture = lazy(() => import("@/components/courses/common/course-youtube-lecture"));
 const HomeBlogs = lazy(() => import("@/components/home/home-blogs"));
 const HomeFaq = lazy(() => import("@/components/home/home-faq"));
 
 const SectionSkeleton = ({ height }) => (
-  <div
-    style={{ minHeight: height, background: "transparent" }}
-    aria-hidden="true"
-  />
+  <div style={{ minHeight: height, background: "transparent" }} aria-hidden="true" />
 );
 
-const LazySection = ({
-  children,
-  rootMargin = "200px",
-  minHeight = "200px",
-  priority = false,
-}) => {
+const LazySection = ({ children, rootMargin = "200px", minHeight = "200px", priority = false }) => {
   const [isVisible, setIsVisible] = useState(priority);
   const [isPending, startTransition] = useTransition();
   const [reservedHeight, setReservedHeight] = useState(minHeight);
@@ -60,7 +36,6 @@ const LazySection = ({
 
   useEffect(() => {
     if (priority) return;
-
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting && !hasRendered.current) {
@@ -71,14 +46,12 @@ const LazySection = ({
       },
       { threshold: 0, rootMargin }
     );
-
     if (ref.current) observer.observe(ref.current);
     return () => observer.disconnect();
   }, [priority, rootMargin]);
 
   useEffect(() => {
     if (!isVisible || !contentRef.current) return;
-
     const ro = new ResizeObserver(([entry]) => {
       const h = entry.contentRect.height;
       if (h > 0) setReservedHeight(`${h}px`);
@@ -88,12 +61,7 @@ const LazySection = ({
   }, [isVisible]);
 
   return (
-    <div
-      ref={ref}
-      style={{
-        minHeight: isVisible && !isPending ? undefined : reservedHeight,
-      }}
-    >
+    <div ref={ref} style={{ minHeight: isVisible && !isPending ? undefined : reservedHeight }}>
       {isVisible ? (
         <Suspense fallback={<SectionSkeleton height={reservedHeight} />}>
           <div ref={contentRef}>{children}</div>
@@ -113,7 +81,10 @@ export default function Home() {
       </Suspense>
 
       <HomeHero slug="home" bottombar="true" />
-      <LazySection minHeight="400px" rootMargin="400px">
+
+      {/* FIX: rootMargin="600px" on first section = prefetch starts earlier
+          but render still waits for viewport — best of both worlds */}
+      <LazySection minHeight="400px" rootMargin="600px">
         <HomeAbout />
       </LazySection>
 
@@ -144,7 +115,7 @@ export default function Home() {
         <WhatsappCarosal
           course="all"
           title="Unfiltered Reflections from AIA-Trained Professionals"
-          description="Heartfelt messages shared by professionals after completing their journey with AIA. Each message reflects a different experience. These reflections provide a genuine view of what preparation looks like in real situations, beyond structured testimonials"
+          description="Heartfelt messages shared by professionals after completing their journey with AIA."
         />
       </LazySection>
 

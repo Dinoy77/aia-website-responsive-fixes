@@ -12,7 +12,6 @@
   <meta data-rh="true" property="og:url" content="https://aia.in.net/" />
   <meta property="og:type" content="website" />
   <meta property="og:image" content="/favicon-32x32.png" />
-
   <link data-rh="true" rel="canonical" href="https://aia.in.net/" />
   <meta name="application-name" content="AIA" />
   <meta name="author" content="ACADEMY OF INTERNAL AUDIT" />
@@ -21,137 +20,81 @@
   <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
   <link rel="icon" type="image/png" sizes="192x192" href="/android-chrome-192x192.png" />
   <link rel="icon" type="image/png" sizes="512x512" href="/android-chrome-512x512.png" />
-  <!-- Google Site Verification (GSC Code) -->
   <meta name="google-site-verification" content="rJlkOVXPnQNj8F3FD3_kwLVrqO0NydyxlvvWEtOReSo" />
   <meta property="og:site_name" content="AIA" />
 
   <script type="application/ld+json">
-      {
-        "@context": "https://schema.org",
-        "@type": "WebSite",
-        "name": "AIA",
-        "url": "https://aia.in.net/",
-        "potentialAction": {
-          "@type": "SearchAction",
-          "target": "https://aia.in.net/?s={search_term_string}",
-          "query-input": "required name=search_term_string"
-        }
-      }
-    </script>
+    {"@context":"https://schema.org","@type":"WebSite","name":"AIA","url":"https://aia.in.net/","potentialAction":{"@type":"SearchAction","target":"https://aia.in.net/?s={search_term_string}","query-input":"required name=search_term_string"}}
+  </script>
+  <script type="application/ld+json">
+    {"@context":"https://schema.org","@type":"Organization","name":"AIA","alternateName":"Academy of Internal Audit","url":"https://aia.in.net/","logo":"https://aia.in.net/webapi/public/assets/images/web_images/new_logo.webp","sameAs":["https://www.facebook.com/@academyofinternalaudit","https://twitter.com/AcademyAudit","https://www.instagram.com/academyofia/","https://www.linkedin.com/company/academy-of-internal-audit","https://in.pinterest.com/academyofia/","https://www.youtube.com/@academyofia"]}
+  </script>
+  <script type="application/ld+json">
+    {"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://aia.in.net/"}]}
+  </script>
 
-  <!-- Optimized Resource Hints -->
+  <!-- Preconnect to origins needed for above-fold content -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="preconnect" href="https://aia.in.net" crossorigin />
 
+  <!-- DNS prefetch for deferred third parties -->
   <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
   <link rel="dns-prefetch" href="https://pagead2.googlesyndication.com" />
   <link rel="dns-prefetch" href="https://www.google-analytics.com" />
 
-  <!-- Delayed Third-Party Script Loading (Advanced) -->
+  <!-- FIX: Preload the AIA logo — it IS the first visible image (LCP candidate) -->
+  <link rel="preload" as="image" href="https://aia.in.net/webapi/public/assets/images/web_images/new_logo.webp" fetchpriority="high" />
+
+  <!-- Critical CSS — minimal, just enough for above-fold render without CLS -->
+  <style>
+    *,*::before,*::after{box-sizing:border-box}
+    body{font-family:"Poppins",system-ui,sans-serif;margin:0;-webkit-font-smoothing:antialiased}
+    #root{min-height:100vh;display:flex;flex-direction:column}
+    .shimmer{background:linear-gradient(90deg,#f0f0f0 25%,#e0e0e0 50%,#f0f0f0 75%);background-size:200% 100%;animation:shimmer 1.5s infinite}
+    @keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
+  </style>
+
+  <!-- FIX: Font loading — use ONLY media=print swap trick, no duplicate preload
+       The preload + media=print combo conflicts and causes both to fire, which
+       can actually make the font render-blocking. Just use the swap trick alone. -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" media="print" onload="this.media='all'" />
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" /></noscript>
+
+  <!-- FIX: GTM delayed 4s after load — gives React time to hydrate and LCP to paint -->
   <script>
     window.addEventListener("load", function () {
-      // GTM Delay
       setTimeout(function () {
         (function (w, d, s, l, i) {
           w[l] = w[l] || [];
-          w[l].push({
-            "gtm.start": new Date().getTime(),
-            event: "gtm.js",
-          });
-          var f = d.getElementsByTagName(s)[0],
-            j = d.createElement(s),
-            dl = l != "dataLayer" ? "&l=" + l : "";
+          w[l].push({"gtm.start": new Date().getTime(), event: "gtm.js"});
+          var f = d.getElementsByTagName(s)[0], j = d.createElement(s), dl = l != "dataLayer" ? "&l=" + l : "";
           j.async = true;
           j.src = "https://www.googletagmanager.com/gtm.js?id=" + i + dl;
           f.parentNode.insertBefore(j, f);
         })(window, document, "script", "dataLayer", "GTM-KJ7WJLKJ");
-      }, 2000); // 2 second delay after load to clear main thread for React
+      }, 4000);
     });
   </script>
 
-  <!-- Organization Schema (inside head) -->
-  <script type="application/ld+json">
-      {
-        "@context": "https://schema.org",
-        "@type": "Organization",
-        "name": "AIA",
-        "alternateName": "Academy of Internal Audit",
-        "url": "https://aia.in.net/",
-        "logo": "https://aia.in.net/webapi/public/assets/images/web_images/new_logo.webp",
-        "sameAs": [
-          "https://www.facebook.com/@academyofinternalaudit",
-          "https://twitter.com/AcademyAudit",
-          "https://www.instagram.com/academyofia/",
-          "https://www.linkedin.com/company/academy-of-internal-audit",
-          "https://in.pinterest.com/academyofia/",
-          "https://www.youtube.com/@academyofia"
-        ]
-      }
-    </script>
-
-  <!-- End Organization Schema -->
-
-  <!-- Breadcrumb Schema -->
-  <script type="application/ld+json">
-      {
-        "@context": "https://schema.org",
-        "@type": "BreadcrumbList",
-        "itemListElement": [
-          {
-            "@type": "ListItem",
-            "position": 1,
-            "name": "Home",
-            "item": "https://aia.in.net/"
-          }
-        ]
-      }
-    </script>
-  <!-- End Breadcrumb Schema -->
-
-  <!-- Google Ad Code Implement - Async but also delayed slightly -->
+  <!-- FIX: AdSense delayed 6s — well after LCP and TTI -->
   <script>
     window.addEventListener("load", function () {
       setTimeout(function () {
-        var script = document.createElement("script");
-        script.async = true;
-        script.src =
-          "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXX";
-        script.crossOrigin = "anonymous";
-        document.head.appendChild(script);
-      }, 3000); // 3 second delay
+        var s = document.createElement("script");
+        s.async = true;
+        s.src = "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXX";
+        s.crossOrigin = "anonymous";
+        document.head.appendChild(s);
+      }, 6000);
     });
   </script>
-  <!-- End Google Ad Code -->
-
-  <!-- Critical CSS inlined -->
-<style>
-  body { font-family: "Poppins", system-ui, sans-serif; margin: 0; }
-  #root { min-height: 100vh; display: flex; flex-direction: column; }
-  .shimmer { background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%); background-size: 200% 100%; animation: shimmer 1.5s infinite; }
-  @keyframes shimmer { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
-</style>
-
-<!-- Non-blocking font load -->
-<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" />
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" media="print" onload="this.media='all'" />
-<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" /></noscript>
-  <!-- 
-    <link rel="preconnect" href="https://fonts.gstatic.com" />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap"
-      rel="stylesheet"
-    /> -->
 </head>
 
 <body class="antialiased font-poppins">
-  <!-- Google Tag Manager (noscript) - Add this inside body tag for all pages -->
   <noscript>
-    <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KJ7WJLKJ" height="0" width="0"
-      style="display: none; visibility: hidden"></iframe>
+    <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KJ7WJLKJ" height="0" width="0" style="display:none;visibility:hidden"></iframe>
   </noscript>
-  <!-- End Google Tag Manager (noscript) -->
-
   <div id="root"></div>
   <script type="module" src="/src/main.jsx"></script>
 </body>
