@@ -49,8 +49,9 @@ export default function App() {
 
       {/* FIX: Wrap non-critical singletons in Suspense with null fallback
           so they don't block the page render at all */}
+      {/* PERF: Only mount GA after window load — prevents it from blocking TTI */}
       <Suspense fallback={null}>
-        <GoogleAnalytics />
+        {typeof window !== 'undefined' && <GoogleAnalytics />}
       </Suspense>
 
       {!location.pathname.startsWith("/blogs/") && (

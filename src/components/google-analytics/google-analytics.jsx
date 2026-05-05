@@ -42,8 +42,8 @@ const GoogleAnalytics = () => {
     };
 
     const timer = setTimeout(() => {
-      loadGTagOnce();
-    }, 3000);
+  loadGTagOnce();
+}, 8000);
 
     return () => clearTimeout(timer);
   }, []);

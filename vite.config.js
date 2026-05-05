@@ -42,7 +42,12 @@ export default defineConfig({
       workbox: {
         globPatterns: ['**/*.{js,css,html,ico,png,svg,webp}'],
         // FIX: Skip the huge vendor chunk from SW precache to reduce initial load
-        globIgnores: ['assets/vendor-*.js'],
+        globIgnores: [
+          'assets/vendor-*.js',
+          'assets/framer-motion-*.js',
+          'assets/map-vendor-*.js',
+          'assets/react-icons-vendor-*.js',
+        ],
         runtimeCaching: [
           {
             urlPattern: /^https:\/\/aia\.in\.net\/webapi\/public\/assets\/images\/web_images\/banner_images\/.*\.webp$/,
@@ -82,6 +87,11 @@ export default defineConfig({
     alias: { "@": path.resolve(__dirname, "src") },
   },
 
+  // PERF: Don't pre-bundle leaflet — it's only used on map pages
+  optimizeDeps: {
+    exclude: ['leaflet', 'react-leaflet', 'leaflet.markercluster'],
+  },
+
   build: {
     outDir: "dist",
     emptyOutDir: true,
@@ -101,12 +111,17 @@ export default defineConfig({
             if (
               id.includes("/node_modules/react/") ||
               id.includes("/node_modules/react-dom/") ||
-              id.includes("/node_modules/react-router-dom/") ||
               id.includes("/node_modules/scheduler/")
-            ) return "react-vendor";
+            ) return "react-core";
+
+            if (
+              id.includes("/node_modules/react-router-dom/") ||
+              id.includes("/node_modules/react-router/")
+            ) return "react-router";
             if (id.includes("axios") || id.includes("@tanstack/react-query")) return "data-vendor";
             if (id.includes("framer-motion")) return "framer-motion";
-            if (id.includes("lucide-react") || id.includes("react-icons")) return "icons-vendor";
+            if (id.includes("lucide-react")) return "lucide-icons";
+            if (id.includes("react-icons")) return "react-icons-vendor";
             // FIX: Split leaflet into its own chunk — only loads on map pages
             if (id.includes("leaflet") || id.includes("react-leaflet")) return "map-vendor";
             if (id.includes("swiper") || id.includes("embla-carousel")) return "carousel-vendor";
